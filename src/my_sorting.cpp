@@ -1,19 +1,5 @@
-#include <iostream>
-#include <vector>
+#include "../include/my_sorting.h"
 
-
-void printVector(std::vector<int>& v)
-{
-    std::cout << "( ";
-    for(const int& elem : v)
-    {
-	std::cout << elem << " ";
-    }
-    std::cout << ")" << std::endl;
-}
-
-// I need two functions, a general mergeSort and a merging function that takes as input
-// two sorted arrays
 std::vector<int> mergeVectors(const std::vector<int>& lv, const std::vector<int>& rv)
 {
     std::vector<int> merged_vec(lv.size() + rv.size());
@@ -79,19 +65,4 @@ void mergeSort(std::vector<int>& vec)
     std::vector<int> right_v(vec.begin() + left_v.size(), vec.end());
 
     vec = mergeSort(left_v, right_v);
-}
-
-
-
-int main()
-{
-    std::vector<int> vec = {3, 6, 7, 69, 76, 8, 987, 34, 56, 78, 93, 81, 69};
-
-    std::cout << "Before sorting: ";
-    printVector(vec);
-
-    mergeSort(vec);
-
-    std::cout << "After sorting: ";
-    printVector(vec);
 }
