@@ -9,22 +9,22 @@ std::vector<int> mergeVectors(const std::vector<int>& lv, const std::vector<int>
     int left_idx = 0, right_idx=0;
     for(int& elem : merged_vec)
     {
-	if(left_idx >= lv.size())
-	{
-	    elem = rv[right_idx++];
-	}
-	else if (right_idx >= rv.size())
-	{
-	    elem = lv[left_idx++];
-	}
-	else if(lv[left_idx] > rv[right_idx])
-	{
-	    elem = rv[right_idx++];
-	}
-	else
-	{
-	    elem = lv[left_idx++];
-	}
+        if(left_idx >= lv.size())
+        {
+            elem = rv[right_idx++];
+        }
+        else if (right_idx >= rv.size())
+        {
+            elem = lv[left_idx++];
+        }
+        else if(lv[left_idx] > rv[right_idx])
+        {
+            elem = rv[right_idx++];
+        }
+        else
+        {
+            elem = lv[left_idx++];
+        }
     }
     return merged_vec;
 }
@@ -35,24 +35,24 @@ std::vector<int> mergeSort(const std::vector<int>& lv, const std::vector<int>& r
     std::vector<int> merged_right;
     if(lv.size() != 1)
     {
-	std::vector<int> lv_left(lv.begin(), lv.begin() + (lv.size()/2));
-	std::vector<int> lv_right(lv.begin() + lv_left.size(), lv.end());
-	merged_left = mergeSort(lv_left, lv_right);
+        std::vector<int> lv_left(lv.begin(), lv.begin() + (lv.size()/2));
+        std::vector<int> lv_right(lv.begin() + lv_left.size(), lv.end());
+        merged_left = mergeSort(lv_left, lv_right);
     }
     else
     {
-	merged_left = lv;
+        merged_left = lv;
     }
 
     if(rv.size() != 1)
     {
-	std::vector<int> rv_left(rv.begin(), rv.begin() + (rv.size()/2));
-	std::vector<int> rv_right(rv.begin() + rv_left.size(), rv.end());
-	merged_right = mergeSort(rv_left, rv_right);
+        std::vector<int> rv_left(rv.begin(), rv.begin() + (rv.size()/2));
+        std::vector<int> rv_right(rv.begin() + rv_left.size(), rv.end());
+        merged_right = mergeSort(rv_left, rv_right);
     }
     else
     {
-	merged_right = rv;
+        merged_right = rv;
     }
 
     return mergeVectors(merged_left, merged_right);
@@ -79,7 +79,6 @@ void mergeSort2(std::vector<int>& vec)
     int left_idx = 0;
     int right_idx = vec.size() - 1;
     int mid_idx = right_idx / 2;
-    std::cout << "Indices: " << left_idx << ", " << mid_idx << ", " << right_idx << std::endl;
     
     mergeSort2(vec, left_idx, mid_idx, right_idx);
 }
@@ -88,8 +87,8 @@ void mergeSort2(std::vector<int>& vec, int left_idx=0, int mid_idx=0, int right_
 {
     if (left_idx == right_idx && left_idx == mid_idx)
     {
-	// Nothing to do, there is only one element in this range so it is already sorted
-	return;
+        // Nothing to do, there is only one element in this range so it is already sorted
+        return;
     }
     
     // Compute two new halves from this range in the vector and call mergeSort separately on
@@ -111,7 +110,36 @@ void mergeSort2(std::vector<int>& vec, int left_idx=0, int mid_idx=0, int right_
     mergeHalves(vec, left_idx, mid_idx, right_idx);
 }
 
-void mergeHalves(std::vector<int>& vec, int left_idx, int mid_idx, int right_idx)
+void mergeHalves(std::vector<int>& vec, int idx_l, int idx_m, int idx_r)
 {
+    idx_m++;
 
+    while (idx_l < idx_m)
+    {
+        if (vec[idx_l] > vec[idx_m])
+        {
+            // Swap the element in the left vector and the first element in the right vector
+            swap(vec, idx_l, idx_m);
+
+            // The element that was taken from the left vector to the right vector should now be
+            // moved further down the right vector until it is sorted
+            int new_pos = idx_m;
+            while(new_pos < idx_r && vec[new_pos] > vec[new_pos + 1])
+            {
+                swap(vec, new_pos, new_pos+1);
+                new_pos++;
+            }
+        }
+
+        idx_l++;
+    }
 }
+
+void swap(std::vector<int> &v, int a, int b)
+ {
+    int temp = v[a];
+    v[a] = v[b];
+    v[b] = temp;
+ }
+
+
